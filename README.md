@@ -18,7 +18,6 @@
             filter: blur(30px); 
         }
         
-        /* Optional: Text overlay to show it works as a background */
         .content {
             position: absolute;
             top: 50%;
@@ -29,7 +28,7 @@
             font-size: 2rem;
             font-weight: 100;
             letter-spacing: 4px;
-            pointer-events: none; /* Let clicks pass through to canvas */
+            pointer-events: none;
             text-shadow: 0 0 20px rgba(0,0,0,0.5);
             mix-blend-mode: overlay;
         }
@@ -55,7 +54,6 @@
         window.addEventListener('resize', resize);
         resize();
 
-        // The Palette: Reds, Greens, Pinks, Teals
         const colors = [
             '#FF4D4D', // Red
             '#C70039', // Deep Red
@@ -73,40 +71,32 @@
             }
 
             init() {
-                // Random radius between 20% and 50% of the screen width
+            
                 this.radius = (Math.random() * 300) + 150;
                 
-                // Random position
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
                 
-                // Random velocity (slow movement)
                 this.vx = (Math.random() - 0.5) * 1.5;
                 this.vy = (Math.random() - 0.5) * 1.5;
                 
-                // Random color from palette
                 this.color = colors[Math.floor(Math.random() * colors.length)];
             }
 
             update() {
-                // Move
                 this.x += this.vx;
                 this.y += this.vy;
 
-                // Bounce off walls (with a buffer so they go slightly off screen)
                 if (this.x < -100 || this.x > width + 100) this.vx *= -1;
                 if (this.y < -100 || this.y > height + 100) this.vy *= -1;
             }
 
             draw() {
-                // Create a radial gradient
                 const gradient = ctx.createRadialGradient(
                     this.x, this.y, 0, 
                     this.x, this.y, this.radius
                 );
 
-                // Inner color is the orb color, outer is transparent
-                // We use hex to RGB conversion or simple opacity for the fade
                 gradient.addColorStop(0, this.color);
                 gradient.addColorStop(1, 'rgba(0,0,0,0)');
 
@@ -117,21 +107,14 @@
             }
         }
 
-        // Create a swarm of orbs
         const orbs = [];
-        const orbCount = 12; // Adjust number of blobs here
+        const orbCount = 12;
         for (let i = 0; i < orbCount; i++) {
             orbs.push(new Orb());
         }
 
         function animate() {
-            // Clear the screen slightly less than 100% to create a tiny trail effect? 
-            // No, for liquid gradients we want a clean clear.
             ctx.clearRect(0, 0, width, height);
-
-            // This is the magic line. 
-            // 'screen' blend mode makes colors mix to white/bright versions like light.
-            // 'hard-light' or 'overlay' creates more contrast.
             ctx.globalCompositeOperation = 'screen'; 
 
             orbs.forEach(orb => {
