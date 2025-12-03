@@ -1,5 +1,3 @@
-# is0be1isme.github-io
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +15,6 @@
         }
         canvas {
             display: block;
-            /* A subtle blur filter smooths out the gradient banding for a silkier look */
             filter: blur(30px); 
         }
         
